@@ -5,93 +5,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vue3 with NetNinja</title>
     <script src="https://unpkg.com/vue@3.0.2/dist/vue.global.js"></script>
+    <style>
+      .box {
+        padding: 100px 0;
+        width: 400px;
+        text-align: center;
+        background: #ddd;
+        margin: 20px;
+        display: inline-block;
+      }
+    </style>
   </head>
   <body>
     <h1>Hello and welcome to my Vue3 review tutorial!</h1>
-    <div id="app" data-v-app>
-      <h2>Now I am the template!</h2>
-      <h4>Data demo:</h4>
-      <p>
-        How do we pass data? Using functions etc inside our app. For instance,
-        if I wanted to store my favorite Star Wars movie title and display it
-        in-line (or have other types of dynamic data), I can ...
-      </p>
-      <ol>
-        <li>
-          Declare a function, and have it return something (like a string) ...
-          Fav {{favSciFiFranchise}} episode? ** {{favStarWarsEpisode}} **
-        </li>
-      </ol>
-      <p>What about events?</p>
-      <p>
-        We can use `v-on` properties to specify 1) what events to listen to, and
-        2) what should happen when those events occur ...
-      </p>
-      <p>
-        For example: if we have the following number: {{exampleNumber}} ... we
-        can increment this up by 1 if
-      </p>
-      <ol>
-        <li>Create a button</li>
-        <li>Give it 'v-on:' + 'click' + JS logic (`="[some logic]"`)</li>
-      </ol>
-      <button v-on:click="exampleNumber++">Increase the number</button>
-      <button v-on:click="exampleNumber--">Decrease the number</button>
-      <p>
-        We can also pass-in function logic from our app (in this case, we've
-        declared a function in our app that will change the starting number of
-        the above example from '1' to '4321'
-      </p>
-      <button @click="changeExampleNumber">
-        Click me to change the starting number!
-      </button>
-      <!-- This will get covered later ... -->
-      <!-- <form action="">
-        <input type="text" name="newNumber" />
-      </form>
-      <button @click="passInNewNumber(newNumber)">Submit new number!</button> -->
-      <p>
-        What about *Conditional* rendering? There are lots of situations where
-        you'd want to render things based on a conditional - say, where if
-        someone isn't logged in, we show a "log-in" button, and if they are, we
-        show a 'log-out' button!
-      </p>
-      <!-- Version #1 -->
-      <!-- <div v-if="!isloggedIn">
+    <div id="introApp" data-v-app>
+      <section id="basic-app-html-interactions">
+        <h4>app.js-index.html Interactions:</h4>
+        <p>
+          Any instance of a Vue app can be bound to a DOM element in your root
+          html. Here, we have a div with the ID of 'introApp' - to-which we have
+          moun[ed] our Vue app instance. So, anything written within this
+          specific div will be able to interact with anything inside of the
+          given app instance.
+        </p>
+        <p>
+          You can do many things; for instance, you can pass HTML as a template
+          from the app to this root HTML. However, that template will override
+          anything else within this div - so I've commented-out app.js's
+          template in favor of an "html-as-data" solution:
+        </p>
+        <p><span v-html="rawHtml"></span></p>
+      </section>
+      <br />
+      <section id="handling-basic-data">
+        <h4>Passing basic data:</h4>
+        <p>
+          How do we pass basic data between our app and our root HTML? At a most
+          basic level, we can use variables, functions, etc. inside of our app.
+        </p>
+        <p>
+          For instance, if I wanted to store my favorite Star Wars movie title
+          and display it in-line (or have other types of dynamic data), I could
+          ...
+        </p>
+        <ol>
+          <li>Declare a function, and</li>
+          <li>have it return something ... like a string:</li>
+        </ol>
+        <p>Fav {{favSciFiFranchise}} episode? ** {{favStarWarsEpisode}} **</p>
+      </section>
+      <br />
+      <section id="changing-data-with-events">
+        <h4>Manipulating Data via User Inputs/Events:</h4>
+        <p>
+          In order to manipulate data, provide control the DOM to users, etc. we
+          can use Vue's version of hooks - known as 'directives'; the most
+          common one being `v-on` ...
+        </p>
+        <p>
+          We can use various event properties with `v-on` in order to specify 1)
+          what events to listen to, and 2) what should happen when those events
+          occur ...
+        </p>
+        <p>
+          For example: if we have the following number:
+          <span style="background-color: bisque">_{{exampleNumber}}_</span>
+          ... we can increment this up by 1 if we
+        </p>
+        <ol>
+          <li>Create a button</li>
+          <li>Give that button</li>
+          <ul>
+            <li>the 'v-on:' directive</li>
+            <li>+ the 'click' event listener</li>
+            <li>+ some JS logic (`="[some logic]"`)</li>
+          </ul>
+        </ol>
+        <button v-on:click="exampleNumber++">Increase the number</button>
+        <button v-on:click="exampleNumber--">Decrease the number</button>
+        <p>
+          We can also use function logic (in our app) to manipulate our data:
+        </p>
+        <p>
+          In the next case, we've declared a function in our app that will
+          change the above example from '1' to '4321'
+        </p>
+        <button @click="changeExampleNumber">
+          Click me to change the starting number!
+        </button>
+      </section>
+      <br />
+      <section id="conditionals">
+        <h4>Conditionals:</h4>
+        <p>
+          What about *Conditional* rendering? There are lots of situations where
+          you'd want to render things in the DOM or change data based on a
+          conditional - say, showing either a 'login' or 'logout' button
+          depending on an updated boolean.
+        </p>
+        <!-- Version #1 - this is far too verbose -->
+        <!-- <div v-if="!isloggedIn">
         <button @click="toggleLoggedIn">
           <span>Log in!</span>
         </button>
-      </div>
-      <div v-if="isloggedIn">
+        </div>
+        <div v-if="isloggedIn">
+          <button @click="toggleLoggedIn">
+            <span>Log out!</span>
+          </button>
+        </div> -->
+        <!-- Version #2 - Cleaned-Up! -->
         <button @click="toggleLoggedIn">
-          <span>Log out!</span>
+          <span v-if="!isLoggedIn">Log in!</span>
+          <span v-else>Log out!</span>
+          <!-- v-else just does the opposite of the 'if' -->
         </button>
-      </div> -->
-      <!-- Version #2 - Cleaned-Up! -->
-      <button @click="toggleLoggedIn">
-        <span v-if="!isloggedIn">Log in!</span>
-        <span v-else>Log out!</span>
-        <!-- v-else just does the opposite of the 'if' -->
-      </button>
-      <p>
-        Clicking on this button will change the `isloggedIn` property in our app
-        from `false` to `true` (and back again)!
-      </p>
-      <p>
-        It can also affect other things: below is a welcome message for
-        returning users ... but you can only see/show it if you log in!
-      </p>
-      <div v-show="isloggedIn">Welcome back user!</div>
-      <p>
-        (The key difference here is that `v-show` will hide something using CSS
-        ("display:none") rather than completely hiding the element from the code
-        -> our 'login' button above only shows the given span *even in the
-        'Elements' viewer of the page bc `v-if` is being used
-      </p>
-      <p>
-        Note: adding and removing elements completely is, unsurprisingly, more
-        time-consuming and expensive than using CSS to hide it
-      </p>
+        <p>
+          Here, we have two buttons. But you can only see the "log in!" span
+          given that the current state of "isLoggedIn's" boolean being 'false.'
+          Clicking on this button will change the `isloggedIn` property in our
+          app from `false` to `true` (and back again)!
+        </p>
+        <p>
+          We can also use booleans to indirectly affect other things: below is a
+          welcome message for returning users ... but you can only see/show it
+          if you're logged in! (In this case, we're using the `v-show` directive
+          to display the message based on the state of our shared boolean.)
+        </p>
+        <div>
+          Welcome message: ...
+          <span v-show="isLoggedIn"> Welcome back user! </span>
+        </div>
+        <p>
+          In addition to demonstrating the power of conditionals with vue
+          directives, this also demos a "cost" issue:
+        </p>
+        <p>
+          Using `v-show` will only hide something from the user (using CSS's
+          "display:none" property). This *does not* completely remove said
+          element from the DOM (it's still viewable & accessible via the
+          browser's 'Elements' tab).
+        </p>
+        <p>
+          In order to *completely* remove something from the DOM, you will need
+          to use the `v-if` directive. Note, however, that `v-if` is
+          (unsurprisingly) more time-consuming and expensive than using
+          `v-show's` CSS-based directive - so you will need to decide what suits
+          a given use-case better for each implementation.
+        </p>
+      </section>
+      <br />
+      <section id="mouse-events">
+        <h4>Mouse Events:</h4>
+        <p>
+          What if we want to manipulate the DOM, data etc purely through mouse
+          events?
+        </p>
+        <p>
+          Below, we have several boxes tied to several such events. When the
+          given event occurs, our code triggers our 'handleEvent()' function.
+        </p>
+        <p>There are several things to note:</p>
+        <p>
+          First, the 'event' object is always available. Our first two boxes
+          mearly log that event when the mouse passes in or out of the given
+          box, and our `handleEvent()` function can read the even object's data
+          without additional arguments.
+        </p>
+        <p>
+          Second, you can pass data - even the event object (explicitly) - to
+          your app's functions. If you double-click the third box, the number
+          '65' will be explicitly passed to our `handleEvent()` function, which
+          will in-turn
+        </p>
+        <p>
+          Note: In order to pass the event explicitly to your app, you will need
+          to use the 'dollar sign' (`$`) syntax: `$event`. More importantly, if
+          passing anything *in addition to* the event object, you will
+          still/also need to use this `$event` syntax.
+        </p>
+        <p>
+          Finally, in our fourth box, we're demo'ing the `mousemove` directive,
+          which is triggered on any mouse movement over the object. In this
+          case, it triggers our 'handleMouseMove()' function to update two
+          variables (x & y) and then displays these app variables within the
+          box.
+        </p>
+        <div class="box" v-on:mouseover="handleEvent">Mouse-over (enter)</div>
+        <div class="box" @mouseleave="handleEvent">Mouse-leave (exit)</div>
+        <div class="box" v-on:dblclick="handleEvent($event, 65)">
+          Double-click
+        </div>
+        <div class="box" @mousemove="handleMouseMove">
+          position: {{x}}, {{y}}
+        </div>
+        <h4>Outputting Lists:</h4>
+        <p>
+          While we *could* display elements one by one from an array, like in
+          this first example ...
+        </p>
+        <p>
+          Episode {{starWarsEpisodes[4].episode}},
+          "{{starWarsEpisodes[4].title}}"
+        </p>
+        <p>
+          ... It's better if we use a `v-for` directive, which will allow us to
+          itterate through data arrays (much like classic `for` loops).
+        </p>
+        <p>
+          A `v-for` directive has the same syntax as a basic 'for' loop for its
+          JS logic:
+        </p>
+        <ol>
+          <li>
+            whatever you want to call each element (in this case, we've chosen
+            to call them 'movie[s]'),
+          </li>
+          <li>an 'in' statement, and</li>
+          <li>
+            the name of the array to be cycled-through (in this case,
+            "starWarsEpisodes")
+          </li>
+        </ol>
+        <p>
+          The result is a complete (and far-more brief/clean) listing of all
+          elements in our `starWarsEpisodes` array:
+        </p>
+        <ul>
+          <li v-for="movie in starWarsEpisodes">
+            Episode {{movie.episode}}, "{{movie.title}}"
+          </li>
+        </ul>
+      </section>
+      <br />
+      <section id="attribute-binding">
+        <h4>Attribute Binding:</h4>
+      </section>
     </div>
     <script src="app.js"></script>
   </body>
