@@ -1,0 +1,98 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue3 with NetNinja</title>
+    <script src="https://unpkg.com/vue@3.0.2/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <h1>Hello and welcome to my Vue3 review tutorial!</h1>
+    <div id="app" data-v-app>
+      <h2>Now I am the template!</h2>
+      <h4>Data demo:</h4>
+      <p>
+        How do we pass data? Using functions etc inside our app. For instance,
+        if I wanted to store my favorite Star Wars movie title and display it
+        in-line (or have other types of dynamic data), I can ...
+      </p>
+      <ol>
+        <li>
+          Declare a function, and have it return something (like a string) ...
+          Fav {{favSciFiFranchise}} episode? ** {{favStarWarsEpisode}} **
+        </li>
+      </ol>
+      <p>What about events?</p>
+      <p>
+        We can use `v-on` properties to specify 1) what events to listen to, and
+        2) what should happen when those events occur ...
+      </p>
+      <p>
+        For example: if we have the following number: {{exampleNumber}} ... we
+        can increment this up by 1 if
+      </p>
+      <ol>
+        <li>Create a button</li>
+        <li>Give it 'v-on:' + 'click' + JS logic (`="[some logic]"`)</li>
+      </ol>
+      <button v-on:click="exampleNumber++">Increase the number</button>
+      <button v-on:click="exampleNumber--">Decrease the number</button>
+      <p>
+        We can also pass-in function logic from our app (in this case, we've
+        declared a function in our app that will change the starting number of
+        the above example from '1' to '4321'
+      </p>
+      <button @click="changeExampleNumber">
+        Click me to change the starting number!
+      </button>
+      <!-- This will get covered later ... -->
+      <!-- <form action="">
+        <input type="text" name="newNumber" />
+      </form>
+      <button @click="passInNewNumber(newNumber)">Submit new number!</button> -->
+      <p>
+        What about *Conditional* rendering? There are lots of situations where
+        you'd want to render things based on a conditional - say, where if
+        someone isn't logged in, we show a "log-in" button, and if they are, we
+        show a 'log-out' button!
+      </p>
+      <!-- Version #1 -->
+      <!-- <div v-if="!isloggedIn">
+        <button @click="toggleLoggedIn">
+          <span>Log in!</span>
+        </button>
+      </div>
+      <div v-if="isloggedIn">
+        <button @click="toggleLoggedIn">
+          <span>Log out!</span>
+        </button>
+      </div> -->
+      <!-- Version #2 - Cleaned-Up! -->
+      <button @click="toggleLoggedIn">
+        <span v-if="!isloggedIn">Log in!</span>
+        <span v-else>Log out!</span>
+        <!-- v-else just does the opposite of the 'if' -->
+      </button>
+      <p>
+        Clicking on this button will change the `isloggedIn` property in our app
+        from `false` to `true` (and back again)!
+      </p>
+      <p>
+        It can also affect other things: below is a welcome message for
+        returning users ... but you can only see/show it if you log in!
+      </p>
+      <div v-show="isloggedIn">Welcome back user!</div>
+      <p>
+        (The key difference here is that `v-show` will hide something using CSS
+        ("display:none") rather than completely hiding the element from the code
+        -> our 'login' button above only shows the given span *even in the
+        'Elements' viewer of the page bc `v-if` is being used
+      </p>
+      <p>
+        Note: adding and removing elements completely is, unsurprisingly, more
+        time-consuming and expensive than using CSS to hide it
+      </p>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

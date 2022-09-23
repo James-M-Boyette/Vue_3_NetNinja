@@ -1,0 +1,17 @@
+{
+  "name": "vue3_netninja",
+  "version": "1.0.0",
+  "description": "\"Refresher on VueJS\"",
+  "main": "index.js",
+  "repository": "https://github.com/sou7hernsaint/vue3_netninja.git",
+  "author": "James Boyette <inquiries@james-boyette.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "set PORT=5100&& dev",
+    "build": "run build",
+    "test": "jest --watchAll"
+  },
+  "dependencies": {
+    "vue": "3.0.2"
+  }
+}
