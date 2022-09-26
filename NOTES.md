@@ -50,3 +50,8 @@
 - If you want to use a CDN directly in your code (and not do additional setup),
 
 1. Insert `<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>` into your code
+
+## Attribute Binding:
+
+- Where you bind _dynamic attributes_ to _HTML elements_
+- You can use either `v-bind` or `:` to make a given element bound to data, etc.

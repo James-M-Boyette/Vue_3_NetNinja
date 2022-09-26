@@ -1,0 +1,77 @@
+body {
+  background: #eee;
+}
+
+p,
+h4,
+ul,
+ol {
+  background-color: #fff;
+}
+
+code {
+  /* background-color: azure; */
+  background-color: #414141;
+  color: aliceblue;
+  font-weight: 600;
+}
+
+#mouse-event-examples {
+  display: flex;
+}
+
+.box {
+  padding: 100px 0;
+  width: 400px;
+  text-align: center;
+  background: #fff;
+  margin: 20px;
+  display: inline-block;
+}
+
+.swEpisode {
+  list-style: none;
+}
+
+.favSWEpisode {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.explicitEnglish {
+  background-color: rgb(251, 232, 62);
+  color: black;
+  font-style: italic;
+  font-weight: bold;
+  border: 1px solid #414141;
+}
+
+/* Is this necessary? */
+/* body {
+  background: #eee;
+  max-width: 960px;
+  margin: 20px auto;
+}
+
+p,
+h3,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+  background-color: #fff;
+  margin: 20px auto;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+li.favSWEpisode {
+  background-color: #ff9ed2;
+  color: #fff;
+} */

@@ -4,17 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vue3 with NetNinja</title>
+    <link rel="stylesheet" href="assets/css/intro.css" />
     <script src="https://unpkg.com/vue@3.0.2/dist/vue.global.js"></script>
-    <style>
-      .box {
-        padding: 100px 0;
-        width: 400px;
-        text-align: center;
-        background: #ddd;
-        margin: 20px;
-        display: inline-block;
-      }
-    </style>
   </head>
   <body>
     <h1>Hello and welcome to my Vue3 review tutorial!</h1>
@@ -63,9 +54,9 @@
           common one being `v-on` ...
         </p>
         <p>
-          We can use various event properties with `v-on` in order to specify 1)
-          what events to listen to, and 2) what should happen when those events
-          occur ...
+          We can use various event properties with <code>`v-on:`</code> in order
+          to specify 1) what events to listen to, and 2) what should happen when
+          those events occur ...
         </p>
         <p>
           For example: if we have the following number:
@@ -76,9 +67,9 @@
           <li>Create a button</li>
           <li>Give that button</li>
           <ul>
-            <li>the 'v-on:' directive</li>
-            <li>+ the 'click' event listener</li>
-            <li>+ some JS logic (`="[some logic]"`)</li>
+            <li>the <code>`v-on:`</code> directive</li>
+            <li>+ the <code>`click`</code> event listener</li>
+            <li>+ some JS logic ( <code>`="[some logic]"`</code> )</li>
           </ul>
         </ol>
         <button v-on:click="exampleNumber++">Increase the number</button>
@@ -122,15 +113,18 @@
         </button>
         <p>
           Here, we have two buttons. But you can only see the "log in!" span
-          given that the current state of "isLoggedIn's" boolean being 'false.'
-          Clicking on this button will change the `isloggedIn` property in our
-          app from `false` to `true` (and back again)!
+          given that the current state of "<code>isLoggedIn</code>'s" boolean
+          being 'false.' Clicking on this button will change the
+          <code>`isLoggedIn`</code>
+          property in our app from <code>`false`</code> to
+          <code>`true`</code> (and back again)!
         </p>
         <p>
           We can also use booleans to indirectly affect other things: below is a
           welcome message for returning users ... but you can only see/show it
-          if you're logged in! (In this case, we're using the `v-show` directive
-          to display the message based on the state of our shared boolean.)
+          if you're logged in! (In this case, we're using the
+          <code>`v-show`</code> directive to display the message based on the
+          state of our shared boolean.)
         </p>
         <div>
           Welcome message: ...
@@ -141,17 +135,17 @@
           directives, this also demos a "cost" issue:
         </p>
         <p>
-          Using `v-show` will only hide something from the user (using CSS's
-          "display:none" property). This *does not* completely remove said
-          element from the DOM (it's still viewable & accessible via the
-          browser's 'Elements' tab).
+          Using <code>`v-show`</code> will only hide something from the user
+          (using CSS's "display:none" property). This *does not* completely
+          remove said element from the DOM (it's still viewable & accessible via
+          the browser's 'Elements' tab).
         </p>
         <p>
           In order to *completely* remove something from the DOM, you will need
-          to use the `v-if` directive. Note, however, that `v-if` is
-          (unsurprisingly) more time-consuming and expensive than using
-          `v-show's` CSS-based directive - so you will need to decide what suits
-          a given use-case better for each implementation.
+          to use the <code>`v-if`</code> directive. Note, however, that
+          <code>`v-if`</code> is (unsurprisingly) more time-consuming and
+          expensive than using `v-show's` CSS-based directive - so you will need
+          to decide what suits a given use-case better for each implementation.
         </p>
       </section>
       <br />
@@ -163,41 +157,44 @@
         </p>
         <p>
           Below, we have several boxes tied to several such events. When the
-          given event occurs, our code triggers our 'handleEvent()' function.
+          given event occurs, our code triggers our
+          <code>`handleEvent()`</code> function.
         </p>
         <p>There are several things to note:</p>
         <p>
           First, the 'event' object is always available. Our first two boxes
           mearly log that event when the mouse passes in or out of the given
-          box, and our `handleEvent()` function can read the even object's data
-          without additional arguments.
+          box, and our <code>`handleEvent()`</code> function can read the even
+          object's data without additional arguments.
         </p>
         <p>
           Second, you can pass data - even the event object (explicitly) - to
           your app's functions. If you double-click the third box, the number
-          '65' will be explicitly passed to our `handleEvent()` function, which
-          will in-turn
+          '65' will be explicitly passed to our
+          <code>`handleEvent()`</code> function, which will in-turn
         </p>
         <p>
           Note: In order to pass the event explicitly to your app, you will need
-          to use the 'dollar sign' (`$`) syntax: `$event`. More importantly, if
-          passing anything *in addition to* the event object, you will
-          still/also need to use this `$event` syntax.
+          to use the 'dollar sign' (`$`) syntax: <code>`$event`</code>. More
+          importantly, if passing anything *in addition to* the event object,
+          you will still/also need to use this <code>`$event`</code> syntax.
         </p>
         <p>
-          Finally, in our fourth box, we're demo'ing the `mousemove` directive,
-          which is triggered on any mouse movement over the object. In this
-          case, it triggers our 'handleMouseMove()' function to update two
-          variables (x & y) and then displays these app variables within the
-          box.
+          Finally, in our fourth box, we're demo'ing the
+          <code>`mousemove`</code> directive, which is triggered on any mouse
+          movement over the object. In this case, it triggers our
+          <code>`handleMouseMove()`</code> function to update two variables (x &
+          y) and then displays these app variables within the box.
         </p>
-        <div class="box" v-on:mouseover="handleEvent">Mouse-over (enter)</div>
-        <div class="box" @mouseleave="handleEvent">Mouse-leave (exit)</div>
-        <div class="box" v-on:dblclick="handleEvent($event, 65)">
-          Double-click
-        </div>
-        <div class="box" @mousemove="handleMouseMove">
-          position: {{x}}, {{y}}
+        <div id="mouse-event-examples">
+          <div class="box" v-on:mouseover="handleEvent">Mouse-over (enter)</div>
+          <div class="box" @mouseleave="handleEvent">Mouse-leave (exit)</div>
+          <div class="box" v-on:dblclick="handleEvent($event, 65)">
+            Double-click
+          </div>
+          <div class="box" @mousemove="handleMouseMove">
+            position: {{x}}, {{y}}
+          </div>
         </div>
         <h4>Outputting Lists:</h4>
         <p>
@@ -209,12 +206,14 @@
           "{{starWarsEpisodes[4].title}}"
         </p>
         <p>
-          ... It's better if we use a `v-for` directive, which will allow us to
-          itterate through data arrays (much like classic `for` loops).
+          ... It's better if we use a <code>`v-for`</code> directive, which will
+          allow us to itterate through data arrays (much like classic
+          <code>`for`</code>
+          loops).
         </p>
         <p>
-          A `v-for` directive has the same syntax as a basic 'for' loop for its
-          JS logic:
+          A <code>`v-for`</code> directive has the same syntax as a basic
+          <code>`for`</code> loop for its JS logic:
         </p>
         <ol>
           <li>
@@ -232,14 +231,149 @@
           elements in our `starWarsEpisodes` array:
         </p>
         <ul>
-          <li v-for="movie in starWarsEpisodes">
+          <li
+            class="swEpisode"
+            v-for="movie in starWarsEpisodes"
+            :class="{favSWEpisode: movie.isFav}"
+          >
+            <span
+              ><img :src="movie.img" :alt="movie.title" style="max-width: 50px"
+            /></span>
             Episode {{movie.episode}}, "{{movie.title}}"
           </li>
         </ul>
+        <p>
+          Note: this example has been added-on to in subsequent sections (using
+          <code>`v-bind:`</code> for the images, <code>`v-bind:`</code> +
+          <code>`class="{}"`</code> for the )
+        </p>
       </section>
       <br />
       <section id="attribute-binding">
         <h4>Attribute Binding:</h4>
+        <p>
+          Sometimes, you will want to link a DOM element to dynamic data, etc.
+          In order to do this, you can use either <code>`v-bind:`</code> or the
+          short-hand <code>`:`</code>. The following are two instances of the
+          same anchor tag, but using our two different options for `v-bind`:
+        </p>
+        <a v-bind:href="url">Best website ever!</a>
+        <br />
+        <a :href="url">short-hand version</a>
+        <p>
+          If you'd like to combine <code>`v-bind:`</code> with
+          <code>`v-for:`</code>, you simply nest the former within the latter.
+          Look at our Star Wars episodes example above - we've added movie
+          poster images for each episode using <code>`v-bind:`</code>
+        </p>
+      </section>
+      <section id="dynamic-classes">
+        <h4>Dynamic Classes:</h4>
+        <p>
+          What if you'd like to conditionally apply or remove classes (or other
+          HTML properties)? This can be done using
+        </p>
+        <ol>
+          <li><code>`v-bind:`</code> and</li>
+          <li>the following expression:</li>
+          <ul>
+            <li>
+              <code
+                >:[
+                <span class="explicitEnglish"> class/other HTML property </span>
+                ]="{[
+                <span class="explicitEnglish">
+                  class to dynamically apply
+                </span>
+                ] : [
+                <span class="explicitEnglish"> property to be evaluated </span>
+                ]}"</code
+              >
+            </li>
+            <li>
+              Example:
+              <code> :class="{favSWEpisode: movie.isFav}" </code>
+            </li>
+          </ul>
+        </ol>
+        <p>In the above example, we're looking to</p>
+        <ol>
+          <li>Set the HTML *<b>class</b>* property of something,</li>
+          <li>
+            using a class <b>name</b> we've specified (in this case,
+            "favSWEpisode"),
+          </li>
+          <li>
+            whenver a specific property ("isFav," in this case) amounts to
+            <code>`true`</code>
+          </li>
+        </ol>
+        <p>
+          An example of this being implemented can be found in our 'Star Wars
+          episodes' example from a few sections ago: after adding an
+          <code>`isFav`</code> property to each movie (in our app.js) + a CSS
+          entry for the dynamic <code>`favSWEpisode`</code> class, we inserted
+          the <code>`v-bind:class="{favSWEpisode: movie.isFav}</code> directive
+          in our <code>`v-for`</code> loop.
+        </p>
+        <p>
+          The result is that, becuase
+          <b>Empire Strikes Back</b> and <b>Return of the Jedi</b> both have
+          <code>`true`</code> set for their <code>`isFav`</code> data property,
+          they will get the <code>`favSWEpisode`</code> class
+          dynamically-applied to them at runtime (along with the associated CSS
+          stylings of 'bold' and 'italic').
+        </p>
+        <!-- Challenge (which I ignored) -->
+        <!-- > Make each episode clickable, such that when clicked, the 'isFav' property is updated & reversed (goes from 'fav' to not + the reverse) ... essentially, make it so that you can click your favs and have their data updated dynamically -->
+      </section>
+      <section id="computed-properties">
+        <h4>Computed Properties:</h4>
+        <p>
+          When you want to define one data property in your component using
+          <b>another</b> data property. To do this, you will need
+        </p>
+        <ol>
+          <li>
+            A <code>`computed: {}`</code> property in your componenet (app.js),
+            and
+          </li>
+          <li>logic for what will be returned</li>
+          <ul>
+            <li>(I also suspect that this can be done in other ways ...)</li>
+          </ul>
+        </ol>
+
+        <p>
+          So, let's say that we want to compute a new array that *<b>only</b>*
+          contains our favorite episodes ... we can
+        </p>
+        <ol>
+          <li>
+            Create a new section in our app.js for <code>`computed:`</code>
+          </li>
+          <li>
+            Create logic - in this case, a function that uses the
+            <code>`filter()`</code> method to pre-select and return a new array
+            <b>only</b> containing our favorite episodes,
+          </li>
+          <li>
+            and then use <i>that</i> (new) array to list our favorites on the
+            front end:
+          </li>
+        </ol>
+        <ul>
+          <li
+            class="swEpisode"
+            v-for="movie in filteredByFavEpisode"
+            :class="{favSWEpisode: movie.isFav}"
+          >
+            <span
+              ><img :src="movie.img" :alt="movie.title" style="max-width: 50px"
+            /></span>
+            Episode {{movie.episode}}, "{{movie.title}}"
+          </li>
+        </ul>
       </section>
     </div>
     <script src="app.js"></script>

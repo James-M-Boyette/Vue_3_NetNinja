@@ -17,13 +17,44 @@ const introApp = Vue.createApp({
       x: 0,
       y: 0,
       starWarsEpisodes: [
-        { title: "The Phantom Menace", episode: 1 },
-        { title: "The Clone Wars", episode: 2 },
-        { title: "Revenge of the Sith", episode: 3 },
-        { title: "A New Hope", episode: 4 },
-        { title: "Empire Strike Back", episode: 5 },
-        { title: "Return of the Jedi", episode: 6 },
+        {
+          title: "The Phantom Menace",
+          episode: 1,
+          img: "./assets/images/episode_1.jpg",
+          isFav: false,
+        },
+        {
+          title: "The Clone Wars",
+          episode: 2,
+          img: "./assets/images/episode_2.jpg",
+          isFav: false,
+        },
+        {
+          title: "Revenge of the Sith",
+          episode: 3,
+          img: "./assets/images/episode_3.jpg",
+          isFav: false,
+        },
+        {
+          title: "A New Hope",
+          episode: 4,
+          img: "./assets/images/episode_4.jpg",
+          isFav: false,
+        },
+        {
+          title: "Empire Strike Back",
+          episode: 5,
+          img: "./assets/images/episode_5.jpg",
+          isFav: true,
+        },
+        {
+          title: "Return of the Jedi",
+          episode: 6,
+          img: "./assets/images/episode_6.jpg",
+          isFav: true,
+        },
       ],
+      url: "http://www.james-boyette.com",
     };
   },
   // We can declare functions:
@@ -51,6 +82,11 @@ const introApp = Vue.createApp({
     handleMouseMove(e) {
       this.x = e.offsetX;
       this.y = e.offsetY;
+    },
+  },
+  computed: {
+    filteredByFavEpisode() {
+      return this.starWarsEpisodes.filter((episode) => episode.isFav);
     },
   },
 });
