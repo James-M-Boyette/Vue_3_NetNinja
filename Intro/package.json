@@ -7,7 +7,7 @@
   "author": "James Boyette <inquiries@james-boyette.com>",
   "license": "MIT",
   "scripts": {
-    "start": "set PORT=5100&& dev",
+    "start": "set PORT=8080&& dev",
     "build": "run build",
     "test": "jest --watchAll"
   },

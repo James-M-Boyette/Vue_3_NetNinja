@@ -41,21 +41,17 @@
 
 - Performance gains
 
-## How to get started:
-
-- If you want to install vue,
-
-1. Run `npm init vue@latest` (and visit https://vuejs.org/guide/quick-start.html#creating-a-vue-application if you'd like to read the documentation)
-
-- If you want to use a CDN directly in your code (and not do additional setup),
-
-1. Insert `<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>` into your code
-
 ## Attribute Binding:
 
 - Where you bind _dynamic attributes_ to _HTML elements_
 - You can use either `v-bind` or `:` to make a given element bound to data, etc.
 
-## Using the Vue CLI (Command Line Interface):
+## Lifecycle Hooks (Vid #6, 12:49)
 
--
+What's the lifecycle of a Vue component?
+
+1. It's created
+2. It's mounted to the DOM
+3. It's updated (maybe with different data)
+4. (Eventually) it is destroyed
+   > See https://vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram
