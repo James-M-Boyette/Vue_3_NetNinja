@@ -247,3 +247,61 @@ Example:
     this.$emit("my message", this.someDataProp);
 
 > - Check Project_2, `Block.vue`'s `stopTimer()` method for an example
+
+## Two-way Data Binding (Vid #7, 05:26)
+
+What is it?
+
+- Generally speaking, it is when you bind template inputs and data with component prop data. If you enter your email into a field (and have used `v-model` to correctly link it to a data prop), then what gets typed will also get stored. However, this street also runs the other way - and if the data prop gets changed (via another method etc in the app), wherever said data prop is displayed in the component's template will be updated _also_.
+
+How do you do it?
+
+- You can use the `v-model` directive, and set it equal to a given data prop
+  > - Check project_3, `SignupForm.vue`'s 'template' & 'script' sections for an example. Note that if the commented-out props were active, then you would see the template input fields they're bound to filled with their values ...
+
+Example:
+
+    <!-- In the 'template' section of the component ... -->
+    <template>
+      <form>
+        <label>Email:</label>
+        <input type="email" 🚀v-model="userEmail" />
+      </form>
+    </template>
+
+    <!-- In the 'script' section of the component ... -->
+    <script>
+      export default {
+        data() {
+          return {
+            🚀userEmail: "",
+          };
+        },
+      };
+    </script>
+
+## Form Elements (single-input fields, multi-input fields, single check boxes, multiple check boxes, drop-down menus, and submitting forms) (Vid #7)
+
+What is it?
+
+- In this video, Shaun creates a nice, semi-complex form. He covers a range of form elements while also demonstrating how to use and handle _two-way data binding_, _keyboard events_, and _bespoke submission logic_
+
+How do you do it?
+
+- f
+  > - Check project_3,
+
+Example:
+
+## Select Boxes (Vid #7, 10:36)
+
+What is it?
+
+-
+
+How do you do it?
+
+- f
+  > - Check project_3,
+
+Example:
