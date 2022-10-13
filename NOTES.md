@@ -28,18 +28,183 @@
   > Given that Vue uses a 'nested component' approach to single-page generation, it is important to know that the entire map of all components (parent & child) is known as the _Component Tree_
 - `src` > `main.js`: The JS file that kickstarts the app, using the `createApp(App).mount('#app')` method (imported from our Vue Node library) instead of `const introApp = Vue.createApp({})` ...
 
+### For Vue-Router/Multi-page applications
+
+- `src` > `router`: this folder contains `index.js` - the router logic file. Each object in `routes` constitutes an individual endpoint
+  > Note: you can bind your router-view links to them, so that changes in this file are reflected in all bound components
+- `src` > `views`: this folder normally contains the individual pages you'd like to intercept & inject with Vue (About, Home etc). It can also contain page-specific components (components only used by that page).
+- `src` > `components`: since the `views` folder tends to hold page-specific components, this folder is often used for components that _aren't_ page-specific, and used on multiple pages (re-usable components like modals, navbars, headers, footers, etc.).
+
 ## Error Fixes:
 
 - After the initial setup, running `npm run serve` threw an error `Multiple assets emit different content to the same filename index.html`. To solve this, one StackOverflow soln. was to rename `index.html` to `index.ejs` ... which seems to have solved the issue for now.
 
-## Syntax:
+## Vue Syntax:
 
 - Every Vue module/component has the `.vue` suffix
 - Every module also has three sections:
+
   1. a `template` (html to be injected into the DOM),
-  2. a `script` (where components, functions, data etc are imported and exported), and
-  3. a `style` section (where specific styling can be injected either for a specific component, or globally)
+  2. a `script` (where components, functions, data etc are imported and exported),
+     > Note: this can often rely on the "Options API" - where you declare the `data(){}` function, the `props:` / `methods:` / `computed:` objects, or hook methods (`mounted(){}`, etc.). In Vue 3, the "Composition API" allows you to more-clearly group logic & data together, using hte simple `setup() {}` function (and declare all data, methods, lifecycle hooks etc within it in 'composition functions'/'composables')
+  3. and a `style` section (where specific styling can be injected either for a specific component, or globally)
      > Note: as opposed to Vue2, Vue 3 allows you to have _multiple_ root elements in the root component's template (There's both an `<img>` and a `<HelloWorld>` (root) element (a component) in App.vue in the vanilla starting app, for instance ...)
+
+- Vue "expressions" allow you to insert prop data into an HTML element's _inner text_, by using double curly-braces "{{ }}"
+
+Example:
+
+    <p> I have a {{ product }}</p>
+
+## Directives:
+
+Vue Directives include a number of tools that allow you to manipulate and pass data between components, interact-with and update the DOM, etc. They are not the same as 'hooks'.
+
+### `v-if`
+
+What is it?
+
+- `v-if` is Vue's in-line _conditional_ directive. If the given variable, function, etc. resutls in 'true', the element containing this `v-if` property will be displayed (and conversley, if it evaluates to `false`, the element will be hidden in the render)
+
+How do you use it?
+
+- Syntax: `v-if='[variable to be evaluated]'`
+
+Example:
+
+    <SignIn v-if='!loggedIn' />
+
+Here, we have a `<SignIn />` component - which will only be displayed if the user is not logged in (if the variable _not_ `loggedIn` resolves to `true`)
+
+### `v-show`
+
+What is it?
+
+- `v-show` is Vue's CSS `display: none` override directive.
+- ... I don't know when or why you'd use this, currently
+
+How do you use it?
+
+- Syntax: `v-show='[variable to be evaluated]'`
+
+Example:
+
+    <p v-show="showProductDetails">...</p>
+
+Need an explanation here, later ...
+
+### `v-bind` / "One-Way" Data Binding
+
+What is it?
+
+- `v-bind` is Vue's _one-way_ data-binding directive. It is most-often used to insert data into a `template` from somewhere else in the app (usually prop data). In this way, you can further-migrate your app towards a "single source of truth" (where data needs to be updated _directly_ in only one place ...)
+
+  > Note: in general, it seems to me that v-bind is used on various CSS & HTML properties, while Vue _expressions_ are used to insert things into inner text, etc.
+
+- Syntax: `v-bind:[template/html element]="[data/prop]"`
+- Shorthand: `:[template/html element]="[data/prop]"`
+  > For the 'short-hand' version, you simply drop the 'v-bind' and _keep_ the `:`
+
+Example:
+
+    <a v-bind:href="portfolioURL"> ... </a>
+
+Here, our anchor tag no-longer has its `href` property set to something explicit (and in-line, like `<a href="www.my-website.com">`). Instead, we are using `v-bind` to insert the value of our `url` prop/key into the element:
+
+    <script>
+      export default {
+        data() {
+          return {
+            🚀portfolioURL: "http://www.james-boyette.com",
+          };
+        },
+      }
+    </script>
+
+#### Other One-Way Data Bindings:
+
+`:disabled=`
+
+What is it?
+
+- `:disabled=` provides another way to evaluate the truthiness of a prop. In the following example, the button will be added or removed based on the truthiness of 'isButtonDisabled'
+- Syntax: `<button :disabled="[prop to be evaluated]">`
+
+Example:
+
+      <button :disabled="isButtonDisabled">
+
+> Note: It is not clear to me what the difference is between this and v-if ... I think they both get evaluated every time the page is re-rendered?
+
+`:class=`
+
+What is it?
+
+- `:class=` allows you to conditionally-apply a class to an element. In the following example, the `div` will 1. have the class of `.active` applied to it if 2. the prop `isActive` is truthy
+- Syntax: `<div :class="{ [class to be applied]: [prop to be evaluated]}">`
+
+Example:
+
+      <div :class="{ active: isActive}">
+
+`:style=`
+
+What is it?
+
+- `:style=` allows you to apply a styling indirectly (much like our vanilla v-bind:href example). In the following example, the color of this `div` will be updated to whatever the prop 'activeColor' is currently set to
+- Syntax: `<div :style="{ [CSS prop]: [styling to be applied]}">`
+
+Example:
+
+      <div :style="{ color: activeColor}">
+
+### `v-model` / "Two-Way" Data Binding
+
+What is it?
+
+- `v-model` is Vue's _two-way_ data-binding directive. Two-way data-binding allows us to not only set a given template element to something in our data props, _but also_ to update that data prop as changes are made to the template element. This is especially useful for template elements that allow users to give an input (input fields, check boxes, drop-down menus, list generators, and even buttons, sometimes ...).
+- In the following example, we have an input field that may be initially set to something like "your first name here" ... but can be altered by the user when they delete that string and enter "James" instead. As they enter a new string into the field, the prop `firstName will be updated to (temporarily) store the data. Later, if the user submits the form's data (without refreshing the page) the props _dynamically-updated_ data can be read, evaluated, and sent to a server, etc.
+
+- Syntax: `v-model='[interactively-bound variable]'`
+
+Example:
+
+    <input v-model='firstName'>
+
+#### Other Two-Way Data Bindings:
+
+- `v-model.lazy=` ... Syncs input after change event
+- `v-model.number=` ... Always returns a number
+- `v-model.trim=` ... Strips whitespace
+
+### `v-for` / "List" rendering
+
+What is it?
+
+- `v-for` is Vue's in-line _for loop_, which allows you to display multiple elements, pieces of data, etc. with much-more abbreviated code. At minimum, you need to set the `v-for` equal to 1. a variable name of your choice, 2. "in", 3. whatever prop-with-an-array or list element you'd like to itterate-through (see below). However, it is advised that you also 1. include the `key` property and 2. make it bound to a unique identifier in the list.
+
+- Syntax: `v-for='[elment name of your choice] in [prop with an array]'` + `:key='[elment name of your choice].[unique identifier]'`
+
+Example:
+
+    <li v-for="item in items" :key="item.id"> {{ item }} </li>
+
+Here, we have a prop list named "items" - we will itterate through it (using `v-for`) and assign the name `item` to each element in that list + display it using a Vue expression (`{{ item }}`). In order to have greater control (and, say, allow users to perform CRUD actions on these elements, etc.), the `key` property is being declared for each "item", and being given the given item's `id` value (we assume that the "items" array is an array of objects - each of which contains an `id` key with a unique value ...)
+
+Example:
+
+    return {
+      items [
+        { name: "sneakers", manufacturer: "Nike", price: 124.99, 🚀id: "Nike349"}
+        { name: "sneakers", manufacturer: "Nike", price: 110.99, 🚀id: "Nike350"}
+        { name: "sneakers", manufacturer: "Nike", price: 69.99, 🚀id: "Nike351"}
+      ]
+    }
+
+#### Other Two-Way Data Bindings:
+
+- `v-for=(item, index) in items` ... Provides access to the _position_ of the element in the array
+- `v-for=(value, key) in object` ... Always you to itterate through an object's K:Vs
 
 ## Template Refs (Vid #4, 25:25)
 
@@ -284,7 +449,38 @@ Example:
 
 What is it?
 
-- In this video, Shaun creates a nice, semi-complex form. He covers a range of form elements while also demonstrating how to use and handle _two-way data binding_, _keyboard events_, and _bespoke submission logic_
+- In this video, Shaun creates a nice, semi-complex form. He covers a range of form elements while also demonstrating how to use and handle _two-way data binding_, _keyboard events_, and _bespoke submission logic_.
+
+How do you do it?
+
+- In this case, the best thing to do is go look at `project_3`
+  > - Check project_3,
+
+Example:
+
+## Route Parameters (Vid #8, 26:00)
+
+What are they?
+
+- the `id` at the end of a route (usually in the form of `/jobs/:id`)
+
+## Fetching Data (Vid #9, 1:16)
+
+In this video, we use the JSON Server library. This library allows us to supplement a given .json file for a real API/database. - wrapping the file in auto-generated API endpoints.
+
+    {
+      "blogs": [
+        {"title": "new site design", "id": 1},
+        {"title": "dev job stats", "id": 2},
+        {"title": "tech party 2022", "id": 3}
+      ]
+    }
+
+## BLAH (Vid #8, 26:00)
+
+What is it?
+
+-
 
 How do you do it?
 
@@ -293,7 +489,7 @@ How do you do it?
 
 Example:
 
-## Select Boxes (Vid #7, 10:36)
+## BLAH (Vid #8, 26:00)
 
 What is it?
 
