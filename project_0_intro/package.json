@@ -7,11 +7,14 @@
   "author": "James Boyette <inquiries@james-boyette.com>",
   "license": "MIT",
   "scripts": {
-    "start": "set PORT=8080&& dev",
+    "start": "set PORT=8080&& open-cli index.html",
     "build": "run build",
     "test": "jest --watchAll"
   },
   "dependencies": {
     "vue": "3.0.2"
+  },
+  "devDependencies": {
+    "open-cli": "^7.1.0"
   }
 }
