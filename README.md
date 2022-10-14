@@ -4,9 +4,9 @@
 
 ### What you'll find here:
 
-- A [demo](https://github.com/sou7hernsaint/HTML_CSS_Study/blob/main/HTML/demo.html) synthesizing what I learned
-- My study [notes](https://github.com/sou7hernsaint/HTML_CSS_Study/blob/main/NOTES.md) taken during the series
-<!-- Edit this - AT LEAST THE LINKS -->
+- A [Intro App](https://github.com/sou7hernsaint/vue3_netninja/tree/main/Intro) synthesizing what I learned
+- My study [notes](https://github.com/sou7hernsaint/vue3_netninja/blob/main/NOTES.md) taken during the series
+
 
 ### How to interact with this repo:
 
