@@ -5,12 +5,15 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 export default {
   name: "HomeView",
   // Though this is how we access the 'Composition API' it is technically a hook - and it runs before *all other* hooks!
   setup() {
+    const name = computed(() => {
+      return 'shaun'
+    })
     return {};
   },
 };
