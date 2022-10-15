@@ -69,19 +69,15 @@ This is a list of the chapter topics included in this tutorial series, for quick
 0. "JSON Server"
 1. "Fetching Data"
 2. "Conditionally Showing Data"
-3.
-4.
-5.
-6.
 
 ## Video #10, "The Composition API, pt. 1"
 
 0. "Options API explained"
-1.
-2.
-3.
-4.
-5.
+1. "Composition API Basics"
+2. "Template Refs (again)"
+3. "Using Refs for Reactivity"
+4. "Refs vs Reactive"
+5. "Using Computed Values"
 6.
 
 ## Video #11, "The Composition API, pt. 2"
