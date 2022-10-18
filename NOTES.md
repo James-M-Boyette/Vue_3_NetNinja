@@ -24,6 +24,7 @@
 - `src`: contains any source files that will be compressed, converted etc (say, if you were developing your app in Typescript and needed vanilla JS for production)
 - `src` > `assets`: contains any images, .css files etc (note: you don't _have_ to store these things here, but it makes for a nice, tidy project)
 - `src` > `components`: contains any 'child' components your app may use
+  > Note: It's a good practice to name your components with an innitial Capital letter (Footer.vue vs footer.vue) so that you avoid conflicts in your template with vanilla HTML elements (if you had a footer.vue, then you'd get a conflict error when using it in a given component's template, bc it wouldn't know whether to use _your_ 'footer' component or the _vanilla_ HTML 'footer' element)
 - `src` > `App.vue`: This is the **root** Vue component - while it _can_ hold all of the methods, data etc our original, single-component `... createApp({...})` contained, a robust Vue app is much more modularized through the use of "child componenets"
   > Given that Vue uses a 'nested component' approach to single-page generation, it is important to know that the entire map of all components (parent & child) is known as the _Component Tree_
 - `src` > `main.js`: The JS file that kickstarts the app, using the `createApp(App).mount('#app')` method (imported from our Vue Node library) instead of `const introApp = Vue.createApp({})` ...
@@ -39,7 +40,7 @@
 
 - After the initial setup, running `npm run serve` threw an error `Multiple assets emit different content to the same filename index.html`. To solve this, one StackOverflow soln. was to rename `index.html` to `index.ejs` ... which seems to have solved the issue for now.
 
-## Vue Syntax:
+## Vue Syntax (General):
 
 - Every Vue module/component has the `.vue` suffix
 - Every module also has three sections:
@@ -56,9 +57,34 @@ Example:
 
     <p> I have a {{ product }}</p>
 
+## Styling
+
+How to do it?
+
+- If you'd like to style _all_ components, you can either
+
+  1. Add additional stylings to the `<style>` section of a given component (it's not clear to me whether child components can impose their styling on parent ones, nor is it clear whether styling decalred in different components has a 'universal' scope, or is only "one-way" ... 🤔)
+  2. Create a univeral style sheet (usually in your `assets` folder), and then importing that `.css` file in your `main.js` (`import "./assets/styles.css";`)
+     > Thus far, I've opted for the second option, and then created seperate, component-specific files with equally-specific IDs and classes (similar to React/Next's `about.module.css` approach; see option #3 below ...).
+
+- In order to style _only_ the elements in a given component's `<template>`, you can do one of three things: you can either
+
+  1. add the Vue `scoped` property to the component's styling:
+
+  <style scoped> </style>
+
+  2. or you can make the styling more specific (by giving additional classes, IDs etc)
+
+  <style> .modal h1 {...} </style>
+
+  3. or you can just create .css style sheets (with specific IDs & classes) and import them into your main.js:
+     `import "./assets/about.css";`
+
+> You might want to consider doing either the second or third options because there's a slight performance hit when injected styling has to be rendered ...
+
 ## Directives:
 
-Vue Directives include a number of tools that allow you to manipulate and pass data between components, interact-with and update the DOM, etc. They are not the same as 'hooks'.
+Vue Directives encompass a number of tools that allow you to manipulate and pass data between components, as well as interact-with and update the DOM. _Note_ that these are not 'hooks' (hooks are covered later-on in this document).
 
 ### `v-if`
 
@@ -206,15 +232,29 @@ Example:
 - `v-for=(item, index) in items` ... Provides access to the _position_ of the element in the array
 - `v-for=(value, key) in object` ... Always you to itterate through an object's K:Vs
 
-## Template Refs (Vid #4, 25:25)
+## Vue "Refs"
+
+What are Vue "Refs"?
+
+- At an abstract level, Vue "refs" _allow the developer to specifically-target things_ in their component. Using objects created in the virtual DOM, template elements can become tied to script variables.
+- The most obvious and simple example of a Vue "ref" would be the "template" ref, which allows the developer to target and _directly_ modify an HTML DOM element using a "ref" _property_. Any element with such a property can then be targeted with the component's scripts in order to update classes, apply styling, provide new innerHTML etc. You can use template refs and directives via the 'Options' API in order to perform data binding and manipulation.
+
+But what if you want to use the 'Composition API'?
+
+- The slightly-less intuitive "ref() object" exists as a part of Vue's 'Reactivity API' (a subset of the 'Composition API'). When using the "Composition API" (instead of the "Options API"), you will still need a way to perform databinding - something the 'Composition API' _doesn't_ allow for in its script variables out-of-the-box. In order to get databinding functionality, you will need to import the 'Reactivity API', which gives access to things like the 'ref' and 'reactive' objects, and the 'computed()' function.
+  > For examples and further explanation of 'reactive' and 'computed()', see the `ReactiveDemo.vue` and `RefDemo.vue` files. For now, we'll continue to focus on the 'ref' object.
+
+_Going deeper ..._
+
+## "Template" Refs (Vid #4, 25:25)
 
 What are "Template Refs"?
 
-- `Template Refs` allow us to store DOM elements inside a variable in order to specifically target them with the rest of our code - like we'd normally do with vanilla DOM targeting.
+- As previously-stated, `Template Refs` allow us to target DOM elements using a 'ref' property. A DOM element with a 'ref' property can then be stored inside a component-script's variable, making it accessible to and manipulateable by the component's script(s). This should feel very-much like the DOM targeting (`const targetElement = 'getElementbyID()'`) we'd normally do in a vanilla, companion JavaScript file.
 
 How to use "Template Refs"?
 
-- In order to make a given `< template>` element within a component targetable, give that element a `ref` property, such as `ref="whatever name you want"`, and then refrence/target it in your component's script methods using `this.$refs` syntax:
+- As previously indicated, in order to make a given `< template>` element within a component targetable, give that element a `ref` property, such as `ref="whatever name you want"`, and then refrence/target it in your component's script methods using `this.$refs` syntax:
 
   > In your component's `default methods: {...}`, use `this.$refs.[whatever name you want]` ...
 
@@ -237,21 +277,88 @@ Example:
       };
     </script>
 
-- It's a good practice to name your components with an innitial Capital letter (Footer.vue vs footer.vue) so that you avoid conflicts in your template with vanilla HTML elements (if you had a footer.vue, then you'd get a conflict error when using it in a given component's template, bc it wouldn't know whether to use your 'footer' component or the vanilla HTML 'footer' element)
-- In order to style _only_ the elements in a given component's `<template>`, you can do one of three things: you can either
+In this way, our `<input>` element now effectively has a 'templateRefExample' ref tag/handle, which we can grabbed/targeted by your scripts.
 
-  1. add the Vue `scoped` property to the component's styling:
+## Refrence & Reactive Objects (3 chapters in Vid #10, starting at 11:56)
 
-    <style scoped> </style>
+### ref()
 
-  2. or you can make the styling more specific (by giving additional classes, IDs etc)
+What are "Ref"s?
 
-    <style> .modal h1 {...} </style>
+- "Ref" objects (within the 'Composition' API) provide a way to bind data between your component's template and its script(s).
 
-  3. or you can just create .css style sheets and import them into your main.js:
-     `import "./assets/global.css";`
+How do you use them?
 
-  > You might want to consider doing either the second or third options because there's a slight performance hit when injected styling has to be rendered ...
+- "Ref" objects should be decalred as the value of a given variable in your script. Optionally, they can be given a starting value as an argument - which can then be updated via user inputs, other script functions etc.
+  > - Check project_5's `RefDemo.vue` and `ReactiveDemo.vue`
+
+Example:
+
+    <template>
+      <p ref="paragraph">
+        My name is {{ charName }}, and my  current powerUp is
+        {{ powerUp }}.
+      </p>
+      <button @click="handleClick" ref="powerButton">Power him up!</button>
+    </template>
+
+    <script>
+      export default {
+        setup() {
+          🚀const charName = ref("Mario");
+          🚀const charPowerUp = ref();
+
+          🚀const handleClick = () => {
+            charPowerUp.value = "Fireball";
+
+
+            powerButton.value.innerHTML = "Fireball added!"
+          };
+
+          🚀const powerButton = ref()
+        }
+      }
+      return {
+        powerButton,
+        // if the K & V are the same, you only need the one
+        charName,
+        // If different ...
+        powerUp: charPowerUp,
+        //
+        powerButton
+        handleClick,
+      }
+    </script>
+
+Here, we've stored an instance of Vue's refrence object (?class?) in our `charName` variable. That instance has had "Mario" passed-in as its starting value. We've also declared a second Ref instance in `charPowerUp` but given it no starting value. Both can be bound to template elements in order to receive updates from user inputs (or be changed via other functions in this component's script).
+
+Speaking-of, we also have an event listener that, when a button is clicked, will update our `charPowerUp` _refrence_ value - which is to say, we're not updating `charPowerUp`'s value (also indicated via `charPowerUp`'s declaration as an umodifiable _constant_). We are updating the linked Refrence object's value; essentially, we are telling Vue "Get me the ref object instance associated with `charPowerUp` and update its value to 'Fireball'."
+
+Finally, we have an example of a _"template"_ refrence with our tempalte `<button ref="targetButton"` element. This HTML element is stored in the virtual DOM, inside of yet another refrence object. That refrence object is accessible to our component's scripts - but instead of using the `$ref` syntax, we need to declare a constant ?of the same name? (I'm not 100% sure about this - see `RefDemo.vue` for more ...)
+
+### reactive()
+
+What are "Reactive" objects?
+
+- (from documentation)
+
+  > "Returns a reactive proxy of the object"
+
+- They function largely like "ref"rence objects, but can't accept primatives (strings, booleans, numbers, etc.) as arguments (like refs can)
+- ... Probably worth researching more in the future in order to understand the benefits
+  > - See project_5's `ReactiveDemo.vue` for examples & notes
+
+### computed()
+
+- (From documentation)
+
+  > Takes a getter function and returns a read-only reactive ref object for the returned value from the getter
+  > ... can also take an object with get and set functions to create a writable ref object.
+
+- Frankly, it's a little unclear to me what it _actually_ does ...
+- I _think_ its a refrence object that stores the result(s) of a function. The refrence object itself is read-only, but an be updated _indirectly_ via its associated function/logic: the `computed()` function logic can dynamically update and return/store new values as changes occur elsewhere in the DOM. This effectively makes the 'computed' refrence object "one-way" data-bound, since changes to other elements can/will be registered by the `computed()` logic, and a subsequent change made to this refrence object.
+- Put another way, this is a more concise way to update data in a refrence object by combining 1. the data storage of a refrence object and 2. the seperate function logic that would modify it into one, singular thing.
+  > - See project_5's `HomeView.vue` for an example & further notes ...
 
 ## Props & Data (Vid #5, 6:15)
 
@@ -476,7 +583,7 @@ In this video, we use the JSON Server library. This library allows us to supplem
       ]
     }
 
-## BLAH (Vid #8, 26:00)
+## Computed Values (Vid #10, 26:00)
 
 What is it?
 

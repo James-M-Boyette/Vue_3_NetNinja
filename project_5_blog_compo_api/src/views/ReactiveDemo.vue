@@ -20,18 +20,22 @@ export default {
 
   setup() {
     const ninjaOne = ref({
+      // ref()
       name: "mario",
       age: 30,
     });
     const ninjaTwo = reactive({
+      // reactive()
       name: "luigi",
       age: 35,
     });
 
     const updateNinjaOne = () => {
+      // ref()
       ninjaOne.value.age = 40;
     };
     const updateNinjaTwo = () => {
+      // reactive()
       ninjaTwo.age = 45;
     };
     // ... So ... so far, the difference in using 'reactive' is that you can skip using `.value` to go through the nested properties?

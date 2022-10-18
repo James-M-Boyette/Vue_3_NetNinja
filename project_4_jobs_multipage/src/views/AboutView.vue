@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
+    <a href="google.com">This should be something</a>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum libero
       vitae fugiat quidem quo, dolores perspiciatis. Porro ducimus libero minima
