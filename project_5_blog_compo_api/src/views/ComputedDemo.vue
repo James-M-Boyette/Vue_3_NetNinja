@@ -1,16 +1,71 @@
 <template>
   <div class="home">
-    <h1>Project #5</h1>
-    <p>{{ myName }}</p>
-    <input type="text" v-model="search" />
-    <p>search term - {{ search }}</p>
-    <div v-for="name in matchingNames" :key="name">
-      {{ name }}
-    </div>
-    <br />
-    <button @click="handleClickStopWatch" id="stop-watch-button">
-      Stop Watching
-    </button>
+    <article id="demo-container">
+      <h1>computed(), watch() & watchEffect()</h1>
+
+      <!-- Basic computed() usage -->
+      <h4>Basic `computed()` ref</h4>
+      <p class="explanation">
+        In the example below, a 'computed()' ref is returning its value. It is
+        <em>only</em> returning an explicit value, and not one based on other
+        refs (and their values), nor any function logic).
+      </p>
+      <div id="basic-computed-demo">
+        <p>[ {{ myName }} ]</p>
+      </div>
+
+      <!-- Advanced computed() usage -->
+      <h4>Advanced `computed()` ref</h4>
+      <p class="explanation">
+        In this next example, our 'matchingNames()' computed ref is being used
+        much more fully: as you, the user, input letters into the field ...
+      </p>
+      <input type="text" v-model="search" />
+      <ol>
+        <li>Those inputs are being stored in a second ref() named `search`,</li>
+        <p>User 'search'ed for ... {{ search }}</p>
+        <li>
+          A third ref named `characters` is being filtered by our matchingNames
+          computed() ref, and the results stored in the `matchingNames` ref
+          object, and finally
+        </li>
+        <li>
+          we are using a `v-for` loop to display `matchingNames`' ref value(s)
+        </li>
+      </ol>
+      <div v-for="name in matchingNames" :key="name">
+        {{ name }}
+      </div>
+      <p class="explanation">
+        Note: you will see the entirety of `characters` listed at the outset
+        (because you've entered nothing), which ~equals a match with everything.
+        If you enter a matching name (including capitalized first name), you
+        will then see only that match above. Also, you cannot have more than one
+        match displayed, using the current logic in the code ...
+      </p>
+
+      <!-- watch() and watchEffect() hooks -->
+      <h4>Composition API hooks: `watch()` and `watchEffect()`</h4>
+      <p class="explanation">
+        In this final, somewhat-off-topic example, we have a button that, when
+        clicked, will call our watch() and watchEffect() hooks. This will stop
+        their "watching" behavior.
+      </p>
+      <ul>
+        <li>
+          Try inputting more characters in the above-example's input field
+          <em>with the dev console open</em>. Note the log messages.
+        </li>
+        <li>
+          Next, click the button below and then enter more into the input field.
+          Notice how no more log messages are triggered.
+        </li>
+      </ul>
+      <p class="explanation"></p>
+      <button @click="handleClickStopWatch" id="stop-watch-button">
+        Stop Watching
+      </button>
+    </article>
   </div>
 </template>
 
@@ -18,7 +73,7 @@
 import { computed, ref, watch, watchEffect } from "vue";
 
 export default {
-  name: "HomeView",
+  name: "ComputedDemo",
   // Though this is how we access the 'Composition API' it is technically a hook - and it runs before *all other* hooks!
   setup() {
     /**
@@ -109,6 +164,9 @@ export default {
 </script>
 
 <style>
+#demo-container {
+  margin: 5em;
+}
 #stop-watch-button {
   border: 1px solid #494949;
 }
@@ -117,5 +175,18 @@ export default {
 }
 #stop-watch-button:active {
   background: #fef889;
+}
+
+#basic-computed-demo {
+  display: flex;
+  justify-content: center;
+}
+p.explanation {
+  max-width: 400px;
+  margin: 20px auto;
+}
+li {
+  margin-left: 50px;
+  text-align: left;
 }
 </style>

@@ -382,6 +382,50 @@ Passing/Using _external_ data to/within a component:
   3. declare the given prop key within that array, so that the data being exported from other components becomes available to that specific component.
      > - Check Modal.vue's `export default { props: [...]}` to see props being imported from App.vue and being made-available to the rest of the component
 
+## Hooks
+
+In general, Vue's hooks encompass the Creation, Mounting, Updating, and Destruction/un-Mounting of a component.
+
+Create:
+
+> At this point, the Composition API is set up
+
+- beforeCreate()
+  > At this point, the Options API is initialized
+- created()
+
+Mount:
+When a component is rendered (created and inserted into the virtual DOM) ...
+
+- beforeMount()
+  > At this point, app.$el is created, and el is replaced with \_
+- mounted()
+
+Update:
+When the virtual DOM is re-rendered and patched ...
+
+> At this point, buttons have been clicked, data has changed, etc.
+
+- beforeUpdate()
+- updated()
+
+Unmount:
+When the component is removed from the DOM ...
+
+- beforeDestroy / beforeUnmount()
+- destroyed / unmounted()
+
+## Composition API-specific Hooks
+
+When a specific value changes ...
+
+- watch()
+- watchEffect()
+  > - This runs once when the setup function runs, and again for a given ref or that ref's children if/when a change occurs (you have to list the given ref in its logic, I think ...)
+  > - Has the benefit, supposedly, of not requiring an explicit watch list?
+  > - Also useful if you need to get data for components initially
+  > - Check HomeView.vue for examples ...
+
 ## Emitting Custom Events (Vid #5, 17:29)
 
 What are they?
@@ -561,9 +605,6 @@ What is it?
 How do you do it?
 
 - In this case, the best thing to do is go look at `project_3`
-  > - Check project_3,
-
-Example:
 
 ## Route Parameters (Vid #8, 26:00)
 
@@ -573,7 +614,7 @@ What are they?
 
 ## Fetching Data (Vid #9, 1:16)
 
-In this video, we use the JSON Server library. This library allows us to supplement a given .json file for a real API/database. - wrapping the file in auto-generated API endpoints.
+In this video, we use the JSON Server library. This library allows us to supplement a given .json file for a real API/database - wrapping the file in auto-generated API endpoints.
 
     {
       "blogs": [
@@ -582,6 +623,20 @@ In this video, we use the JSON Server library. This library allows us to supplem
         {"title": "tech party 2022", "id": 3}
       ]
     }
+
+In order to use [json Server](https://www.npmjs.com/package/json-server) ...
+
+1. Install the package via `npm install -g json-server`
+2. Start it with `json-server --watch db.json`
+
+Notes:
+
+- You can name your db file whatever you want, so long as its file extension is `.json`
+- Creating a 'data' folder that stores this file is a good practice in order to keep your app clean etc.
+- I like to add a script command to `package.json`:
+
+  "jsonServer": "npx json-server --watch data/db.json"
+  // Note the use of 'npx' for windows
 
 ## Computed Values (Vid #10, 26:00)
 

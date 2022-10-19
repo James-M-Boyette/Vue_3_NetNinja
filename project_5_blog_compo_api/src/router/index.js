@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import RefDemo from "@/views/RefDemo.vue";
 import ReactiveDemo from "@/views/ReactiveDemo.vue";
+import ComputedDemo from "@/views/ComputedDemo.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/reactiveDemo",
     name: "reactiveDemo",
     component: ReactiveDemo,
+  },
+  {
+    path: "/computedDemo",
+    name: "computedDemo",
+    component: ComputedDemo,
   },
 ];
 
