@@ -164,7 +164,7 @@ export default {
 </script>
 
 <style>
-#demo-container {
+.demo-container {
   margin: 5em;
 }
 #stop-watch-button {

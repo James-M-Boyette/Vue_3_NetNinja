@@ -1,121 +1,106 @@
 <template>
   <div class="home">
     <h1>Project #5</h1>
-    <p>{{ myName }}</p>
-    <input type="text" v-model="search" />
-    <p>search term - {{ search }}</p>
-    <div v-for="name in matchingNames" :key="name">
-      {{ name }}
-    </div>
-    <br />
-    <button @click="handleClickStopWatch" id="stop-watch-button">
-      Stop Watching
-    </button>
+
+    <article id="blog-posts-demo" class="demo-container">
+      <section id="project-intro">
+        <h2>Intro:</h2>
+        <p class="explanation">
+          In this last section of the intro course, we cover several things:
+        </p>
+        <ul>
+          <li>
+            How to implement the various Vue directives, refs, props, and hooks
+            within the Composition API's `setup()` hook,
+          </li>
+          <li>How to use twice-nested components,</li>
+          <li>
+            How to use 'composables' to further-modularize the code's logic,
+          </li>
+        </ul>
+        <h3>How is this app laid-out?</h3>
+        <p class="explanation">This landing page has two sections:</p>
+        <ul>
+          <li>
+            a demo of using Options API's hooks in the Composition API (using
+            `on` suffix), and
+          </li>
+          <li>~the blog itself~</li>
+        </ul>
+      </section>
+      <section id="the-blog">
+        <h2>The Blog Project:</h2>
+
+        <p class="explanation"></p>
+        <p class="explanation">
+          In our `PostList.vue` component, we have some Composition API-specific
+          hooks declared within its setup() hook. These buttons allow us to
+          visualize their firings (if you have dev console open)
+        </p>
+        <!-- In our `PostList.vue` component, we have some Composition API-specific hooks declared within its setup() hook. These buttons allow us to visualize their firings (if you have dev console open) -->
+        <button @click="showPosts = !showPosts">Toggle posts "visible"</button>
+        <button @click="posts.pop()">Delete last post</button>
+
+        <!-- Update the above element so that we can also use `v-else` to show a 'loading' message when 1. the data hasn't come back yet, but 2. there is no error -->
+        <div v-if="posts.length">
+          <!-- Declare a 'posts' property for our `PostList` injected element, and data-bind it to our `posts` ref() object -->
+          <PostList :posts="posts" v-if="showPosts" />
+        </div>
+        <div v-else>Loading ...</div>
+
+        <!-- Show an error if one is triggered ... -->
+        <div v-if="error">{{ error }}</div>
+      </section>
+    </article>
   </div>
 </template>
 
 <script>
-import { computed, ref, watch, watchEffect } from "vue";
+import { ref } from "vue";
+import PostList from "@/components/PostList.vue";
+import getPosts from "@/composables/getPosts";
 
 export default {
   name: "HomeView",
-  // Though this is how we access the 'Composition API' it is technically a hook - and it runs before *all other* hooks!
+  components: { PostList },
   setup() {
     /**
-     *   * Composition API `computed()` ref
+     *   * Composition API and props
+     *      Here, we have some blog posts. We'd like to display summary info about them while
+     *      1. keeping our code modular and
+     *      2. passing data via props
+     *      However, we haven't learned yet how to do this using the Composition API ...
+     *      First,
      *
      */
-
-    // Here, we have the simplest of `computed()` ref statements. It does not refer to any other ref objects or their internal values. Instead, it demonstrates the pure result: the read-only returning of data. If we access the `myName` ref object, we will get the value "James" ...
-    const myName = computed(() => {
-      return "James";
-    });
-
-    // What if we'd like to do some work, based on other ref objects and their values? Moreover, what if we'd like to have a more succinct way of doing that work and storing the result? This is where `computed()` really shines
-    const characters = ref([
-      "Mario",
-      "Yoshi",
-      "Luigi",
-      "Toad",
-      "Bowser",
-      "Koopa",
-      "Peach",
-    ]);
-
-    const search = ref(""); // User input is stored progressively (letter by letter)
-
-    // the computed() ref stores both the results of function logic/work *and* that logic in a read-only object. This makes the `computed()` ref effectively a one-way databound object ... it has a dynamic, but uni-directional data value because of its reliance (potentially) on other refrence objects. If those other objects change, a computed() object's returned value can change (after its logic is executed).
-    // In this file's example case, we'd like to 1. filter the `characters` ref object values against 2. whatever the user input is (which is being stored in a second, `search` ref object). As `search` updates (with new letters and words), it'd be nice to both re-run a .filter method *and* return the results - all in one refrence object. Moreover, it'd be even nicer to display any and all matches in a template element (using, a `v-for` loop on `matchingNames` outputted value(s))...
+    const showPosts = ref(true);
 
     /**
-     * IOW ...
-     *   1. the user types things into the template's "input" field,
-     *   2. `v-model` is used to establish *two-way* databinding with the virtual DOM's 'search' refrence object,
-     *   3. that refrence object is continually ("dynamically) read by `matchingNames`' `computed()` function and
-     *   4. performs a .filter() on the `characters` refrence object (I think there's implicit 'get' and 'set'ing going on here ...), and
-     *   5. returns/stores the (new) restul in the `matchingNames` refrence object
+     * * The following was the original logic written to fetch blog post data. However, "composables" offer an opportunity to both modularize that logic out of this component *and* make its data more readily-available to every component
      */
+    // const posts = ref([]);
+    // const error = ref(null);
 
-    const matchingNames = computed(() => {
-      return characters.value.filter((name) => name.includes(search.value));
-    });
+    // const load = async () => {
+    //   try {
+    //     let data = await fetch("http://localhost:3000/posts");
+    //     if (!data.ok) {
+    //       throw Error("No data available 😬");
+    //     }
+    //     posts.value = await data.json();
+    //   } catch (err) {
+    //     error.value = err.message;
+    //     console.log(err.value);
+    //   }
+    // };
 
-    /**
-     * Ultimately, it seems that `computed()`'s purpose' is to combine the data storage of a refrence object and the logic of a seperate, inpinging function into one one statement (for brevity & clarity):
-     *
-     * const matchingNames = [] // piece #1
-     * const matches = () => {matchingNames.value = the result of some 'filter' work} // piece #2
-     *
-     * ... become merged into ...
-     * const matchingNames = computed()
-     *   Note: as a ref object, matchingNames *is* storing a value *in addition to* (rather than *only*) a function (as in vanilla JS function declarations, such as `const myFunction = () => {}`, where you'd need to set `const myResult = myFunction(some input)`). This is shorter and cleaner.
-     */
+    const { posts, error, load } = getPosts();
 
-    /**
-     *   * Composition API hooks: `watch()` and `watchEffect()`
-     *
-     */
+    load();
 
-    // `watch()` and `watchEffect()` are Composition API-specific. They can be used to watch for changes in data, elements etc.
-    // watch(search, () => {
-    //   console.log("watch function ran");
-    // });
-
-    // watchEffect(() => {
-    //   console.log("watchEffect function ran", search.value);
-    // });
-
-    // Moreover, if you want to be able to stop them from watching, you can declare them as the value of a constant, and then invoke that constant (now, a function) to stop them
-    const stopWatch = watch(search, () => {
-      console.log("watch function ran");
-    });
-
-    const stopEffect = watchEffect(() => {
-      console.log("watchEffect function ran", search.value);
-    });
-
-    // stopWatch();
-    // stopEffect();
-    // Put these in a button to give dynamic control over turning them off ...
-    const handleClickStopWatch = () => {
-      console.log("Stop watching ...");
-      stopWatch();
-      stopEffect();
-    };
-
-    return { myName, characters, search, matchingNames, handleClickStopWatch };
+    return { posts, error, showPosts };
   },
 };
 </script>
 
-<style>
-#stop-watch-button {
-  border: 1px solid #494949;
-}
-#stop-watch-button:focus {
-  background: #dfdfdf;
-}
-#stop-watch-button:active {
-  background: #fef889;
-}
-</style>
+<style></style>

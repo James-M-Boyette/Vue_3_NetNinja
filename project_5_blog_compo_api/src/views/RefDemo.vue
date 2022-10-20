@@ -1,6 +1,6 @@
 <template>
   <div class="ref-demo">
-    <article id="demo-container">
+    <article class="demo-container">
       <h1>Composition API & ref() Demo</h1>
 
       <!-- Introduction -->

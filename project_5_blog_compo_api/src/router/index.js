@@ -3,6 +3,7 @@ import HomeView from "@/views/HomeView.vue";
 import RefDemo from "@/views/RefDemo.vue";
 import ReactiveDemo from "@/views/ReactiveDemo.vue";
 import ComputedDemo from "@/views/ComputedDemo.vue";
+import PostDetails from "@/views/PostDetails.vue";
 
 const routes = [
   {
@@ -24,6 +25,12 @@ const routes = [
     path: "/computedDemo",
     name: "computedDemo",
     component: ComputedDemo,
+  },
+  {
+    path: "/posts/:id",
+    name: "details",
+    component: PostDetails,
+    props: true,
   },
 ];
 
