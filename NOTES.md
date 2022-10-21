@@ -382,6 +382,8 @@ Passing/Using _external_ data to/within a component:
   3. declare the given prop key within that array, so that the data being exported from other components becomes available to that specific component.
      > - Check Modal.vue's `export default { props: [...]}` to see props being imported from App.vue and being made-available to the rest of the component
 
+### Props in the Composition API
+
 ## Hooks
 
 In general, Vue's hooks encompass the Creation, Mounting, Updating, and Destruction/un-Mounting of a component.
@@ -416,6 +418,8 @@ When the component is removed from the DOM ...
 - destroyed / unmounted()
 
 ## Composition API-specific Hooks
+
+- The previous hooks can be used inside of the Composition API's `setup(){}` hook - you just need to add an `on` prefix to them (`onMound`, `onUpdate` )
 
 When a specific value changes ...
 
@@ -626,7 +630,7 @@ In this video, we use the JSON Server library. This library allows us to supplem
 
 In order to use [json Server](https://www.npmjs.com/package/json-server) ...
 
-1. Install the package via `npm install -g json-server`
+1. Install the package via `npm install json-server` (`npm install -g json-server` to do it globally)
 2. Start it with `json-server --watch db.json`
 
 Notes:
@@ -642,16 +646,41 @@ Notes:
 
 What is it?
 
--
+- Computed Values allow you to combine the logic of a function and the data storage of a refrence object into one, read-only element.
+- **Note:** computed refrence objects are read-only/one-way data-bound. That is to say, you cannot make them completely dynamic and let user's store their inputs in them _directly_ ... however, user inputs and other changes made to refrence objects that your `computed()`'s logic is relying on _will_ update the value of the given `computed()` refrence object.
 
 How do you do it?
 
-- f
-  > - Check project_3,
+- `const myRefObject = computed(() => {...some logic; return a value, which will be stored in myRefObject})
+  > - Check project_5
 
 Example:
 
-## BLAH (Vid #8, 26:00)
+    const myName = computed(() => {
+          return "James";
+        });
+
+> Here, no complicated function logic occurs - but our function _does_ still return a string value of "James". We cannot update `myName`'s value, but it _can_ be read.
+
+or
+
+    onst search = ref("")
+
+    const characters = ref([
+      "Mario",
+      "Yoshi",
+      "Luigi",
+    ]);
+
+    const matchingNames = computed(() => {
+      return characters.value.filter((name) => name.includes(search.value));
+    });
+
+> Here, we _are_ doing some complicated logic. Moreover, if 1) any changes are made to the `search` ref. obj., our computed() logic will run `.filter` on the `characters` ref. obj. and return a new value to the `matchingNames` ref. obj. The two-way databinding of `search`, combined with `matchingNames`'s logic effectively makes the latter _one-way data-bound_, which can be quite useful!
+
+TEMPLATE for further notes:
+
+## REPLACE (Vid #1, 00:00)
 
 What is it?
 
@@ -660,6 +689,6 @@ What is it?
 How do you do it?
 
 - f
-  > - Check project_3,
+  > - Check project_1,
 
 Example:
