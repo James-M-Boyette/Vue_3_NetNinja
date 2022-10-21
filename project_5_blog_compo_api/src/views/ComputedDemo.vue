@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <article id="demo-container">
+    <article class="demo-container">
       <h1>computed(), watch() & watchEffect()</h1>
 
       <!-- Basic computed() usage -->
@@ -20,7 +20,11 @@
         In this next example, our 'matchingNames()' computed ref is being used
         much more fully: as you, the user, input letters into the field ...
       </p>
-      <input type="text" v-model="search" />
+      <div class="computed-form">
+        <span class="computed-label">Character's new name:</span>
+        <input type="text" v-model="search" class="computed-input-field" />
+      </div>
+
       <ol>
         <li>Those inputs are being stored in a second ref() named `search`,</li>
         <p>User 'search'ed for ... {{ search }}</p>
@@ -33,8 +37,12 @@
           we are using a `v-for` loop to display `matchingNames`' ref value(s)
         </li>
       </ol>
-      <div v-for="name in matchingNames" :key="name">
-        {{ name }}
+      <div
+        v-for="name in matchingNames"
+        :key="name"
+        class="computed-characters-list"
+      >
+        <span>{{ name }}</span>
       </div>
       <p class="explanation">
         Note: you will see the entirety of `characters` listed at the outset
@@ -62,9 +70,11 @@
         </li>
       </ul>
       <p class="explanation"></p>
-      <button @click="handleClickStopWatch" id="stop-watch-button">
-        Stop Watching
-      </button>
+      <div class="" id="watchEffect-hook-demo">
+        <button @click="handleClickStopWatch" id="stop-watch-button">
+          Stop Watching
+        </button>
+      </div>
     </article>
   </div>
 </template>
@@ -163,30 +173,4 @@ export default {
 };
 </script>
 
-<style>
-.demo-container {
-  margin: 5em;
-}
-#stop-watch-button {
-  border: 1px solid #494949;
-}
-#stop-watch-button:focus {
-  background: #dfdfdf;
-}
-#stop-watch-button:active {
-  background: #fef889;
-}
-
-#basic-computed-demo {
-  display: flex;
-  justify-content: center;
-}
-p.explanation {
-  max-width: 400px;
-  margin: 20px auto;
-}
-li {
-  margin-left: 50px;
-  text-align: left;
-}
-</style>
+<style></style>

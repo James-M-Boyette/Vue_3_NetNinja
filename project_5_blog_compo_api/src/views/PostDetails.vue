@@ -1,11 +1,13 @@
 <template>
-  <h1>Details</h1>
+  <div class="demo-container">
+    <h1>Details</h1>
 
-  <div v-if="error">{{ error }}</div>
+    <div v-if="error">{{ error }}</div>
 
-  <div v-if="singlePost" class="post">
-    <h3>"{{ singlePost.title }}"</h3>
-    <p class="pre">{{ singlePost.body }}</p>
+    <div v-if="singlePost" class="post">
+      <h3>"{{ singlePost.title }}"</h3>
+      <p class="pre">{{ singlePost.body }}</p>
+    </div>
   </div>
 </template>
 
@@ -24,19 +26,4 @@ export default {
 };
 </script>
 
-<style>
-.post {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.post p {
-  color: #444;
-  line-height: 1.5em;
-  margin-top: 40px;
-}
-
-.pre {
-  white-space: pre-wrap;
-}
-</style>
+<style></style>

@@ -144,16 +144,4 @@ export default {
 };
 </script>
 
-<style>
-.ref-demo-button {
-  border: 1px solid #5a5a5a;
-  border-radius: 4px;
-  width: 150px;
-}
-.ref-demo-button:active {
-  background: #dffbc7;
-}
-.ref-dynamic-value {
-  background: #dffbc7;
-}
-</style>
+<style></style>

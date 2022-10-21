@@ -1,6 +1,6 @@
 <template>
   <div class="reactive-demo">
-    <article id="demo-container">
+    <article class="demo-container">
       <!-- Intro -->
       <h1>Composition API & reactive() Demo</h1>
       <p class="explanation">
@@ -30,6 +30,8 @@
         </div>
       </section>
 
+      <br />
+
       <!-- Explanations -->
       <section id="reactive-demo-explanation">
         <h3>What are the pros and cons?</h3>
@@ -48,16 +50,16 @@
           I don't really understand what this means but, currently, reactive()
           objects don't seem to offer much over ref() ones ...
         </p>
-      </section>
 
-      <!-- Supplemental Note -->
-      <p class="explanation">
-        Note:
-        <em>
-          This example is rather brief because I don't think I'll use the
-          `reactive()` ref object much ...
-        </em>
-      </p>
+        <!-- Supplemental Note -->
+        <p class="explanation">
+          Note:
+          <em>
+            This example is rather brief because I don't think I'll use the
+            `reactive()` ref object much ...
+          </em>
+        </p>
+      </section>
     </article>
   </div>
 </template>
@@ -110,14 +112,4 @@ export default {
 };
 </script>
 
-<style>
-#reactive-demo-sideBySide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#reactive-demo-explanation {
-  margin-top: 40px;
-}
-</style>
+<style></style>
